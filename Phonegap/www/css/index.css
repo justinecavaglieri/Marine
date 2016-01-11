@@ -114,7 +114,8 @@ h1 {
 /* TEST */
 
 #men{
-    background-color: #000; 
+
+    background-color: #FFF;
     width: 10%;
     float: left;
 }
