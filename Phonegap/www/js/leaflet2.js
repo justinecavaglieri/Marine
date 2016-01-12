@@ -1,7 +1,8 @@
 var friendID = 0;
 var enemyID = 1;
 var popupContentPoint = '<div> Sectionne ton bateau: </br> <button name="bt1" onclick="ClickB.bateau(this, friendID)">bateaux amis</button><button onclick="ClickB.bateau(this, enemyID)">bateaux ennemis</button></div>';
-var popupContentFriend = '<label for="titre"></label> <input type="text" class="form-control" id="titre" placeholder="Titre du bateau"/> <button class="btn btn-default" onclick="form.link(this)" id="submit">Enregistrer</button> '
+var popupContentFriend = '<label for="titre"></label> <input type="text" class="form-control" id="titre" placeholder="Titre du bateau"/> <button class="btn btn-default" onclick="OnRegisterClicked(this)" id="submit">Enregistrer</button> </br> ';
+
 
 var friendIcon = L.icon({
     iconUrl: 'img/ami.jpeg',
@@ -36,6 +37,7 @@ var map = L.map('map').setView([51.505, -0.09], 13);
                 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
             id: 'mapbox.streets'
         }).addTo(map);
+
 
 
         L.marker([51.5, -0.09]).addTo(map)
@@ -77,14 +79,25 @@ var ClickB =
         if(argumentID == friendID)
         {
             icon = friendIcon;
-            L.marker(currentCursorPosition, {icon: icon}).addTo(map).bindPopup(popupContentFriend);
+            var newMarker = L.marker(currentCursorPosition/*, {icon: icon}*/);
+            newMarker.addTo(map);
+            newMarker.setIcon(icon);
+            newMarker.bindPopup(popupContentFriend);
+            newMarker.closePopup();
+            newMarker.update();
+            newMarker.on('click', OnFriendMarkerClicked);
+
+            //OnFriendMarkerClicked(newMarker);
         }
         else if(enemyID == enemyID)
         {
             icon = enemyIcon;
-            L.marker(currentCursorPosition, {icon: icon}).addTo(map).bindPopup("a venir");
+            var newMarker = L.marker(currentCursorPosition, {icon: icon}).addTo(map);//.bindPopup("a venir");
+            newMarker.click = OnEnemyMarkerClicked(newMarker);
         }
-    
+
+        
+
         //c.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
         //var element = document.getElementsByName("test");
     //:currentShipId = obj1.getAttribute("name");
@@ -92,20 +105,37 @@ var ClickB =
   
   }
 };
-var ship1 = {
-    name: "Dixmude",
-    poids: "20 000 tonnes",
-}
-var ship2 = {
-    name: "Charles de Gaulle",
-    poids: "20 000 tonnes",
-}
+var currentMarker = null;
+function OnFriendMarkerClicked(e)
+{
+    //window.open('popup.html','fenetre','width=650,height=500');
+    //alert('title');
+   if(currentMarker != null)
+    {
+        currentMarker.closePopup();
+    }
+    currentMarker = e.target;
+    //currentMarker.setIcon(enemyIcon);
+    currentMarker.openPopup();
+    // $('#openModal').show();
+};
 
-var currentMarker; 
-var form = {
-    'link':function(this) {
-        //var element = document.getElementsByName("test");
-    localStorage.setItem('titre', document.getElementById('titre').value);
-    currentShipId = obj1.getAttribute("name");
-    var shipName = alert(obj1.getAttribute("name"));   
-  }
+function OnEnemyMarkerClicked(e)
+{
+
+};
+
+function OnRegisterClicked(obj1)
+{
+    var title = document.getElementById('titre').value;
+     alert(title);
+     if(dic.has(title)){
+        currentMarker.off('click', OnFriendMarkerClicked);
+        currentMarker.getPopup().setContent(title+'</br>'+ dic.get(title));
+        //alert('element trouvé');
+     } else{
+        alert('element non trouvé');
+     }
+
+// remplacer callback OnFriendMarkerClicked
+};
