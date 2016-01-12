@@ -110,7 +110,11 @@ h1 {
 .cat{
     display: inline;
 }
+
+/* TEST */
+
 #men{
+
     background-color: #FFF;
     width: 10%;
     float: left;
