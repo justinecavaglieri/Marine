@@ -163,6 +163,9 @@ h1 {
     border: 1px solid transparent;
     border-radius: 4px;
 }
+#map { 
+    height: 180px; 
+}
 
 /*----MENU---*/
 #lines { 

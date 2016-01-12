@@ -14,7 +14,14 @@ $(document).ready(function(){
         $('#choix').hide();
     })
     $("#submit").click(function(){
-        localStorage.setItem('titre', document.getElementById('titre').value);
+        
+        if(currentShipId == "bt1"){
+            localStorage.setItem('titre1', document.getElementById('titre1').value);
+        } 
+        else if(currentShipId == "bt2")
+        {
+            localStorage.setItem('titre2', document.getElementById('titre2').value);
+        }
         alert('gagné');
         $('#title').hide();
     })
@@ -23,7 +30,9 @@ $(document).ready(function(){
         $('#liste').html(titre);
     })
 
-    function setCanvas() {
+
+
+    /*function setCanvas() {
 		var canvas = document.getElementById("moncanevas");
 		if (canvas.getContext)
 		{    
@@ -38,5 +47,38 @@ $(document).ready(function(){
 			context.stroke(); 
 		}  
 	}
-	window.onload=setCanvas;
+	window.onload=setCanvas;*/
 });
+var currentShipId;
+var basicList =
+{
+    'items':{},
+    'coucou':function(obj1) {
+        //var element = document.getElementsByName("test");
+    currentShipId = obj1.getAttribute("name");
+    var shipName = alert(obj1.getAttribute("name"));   
+  
+  }
+};
+
+/*var ship1 = {
+    var name = "Dixmude";
+    var poids = "20 000 tonnes";
+};
+var ship2 = {
+    var name = "Charles de Gaulle";
+    var poids = "40 000 tonnes";
+};*/
+
+
+var form = {
+    'link':function(title) {
+        //var element = document.getElementsByName("test");
+    currentShipId = obj1.getAttribute("name");
+    var shipName = alert(obj1.getAttribute("name"));   
+  }
+    //'get':function(title) {
+
+  //}
+};
+var map = L.map('map').setView([51.505, -0.09], 13);

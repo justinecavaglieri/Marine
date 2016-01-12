@@ -29,6 +29,9 @@
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="js/dragdrop.js" type="text/javascript"></script>
+        <!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />-->
+        <link rel="stylesheet" href="leaflet/leaflet.css" />
+
         <title>Logiciel Marine nationale</title>
 </head>
 <header id="menu">
@@ -46,11 +49,18 @@
 
 
 <body>
+<div id="map" style="width: 600px; height: 400px"></div>
+
+    <script src="leaflet/leaflet.js"></script>
+
+
+
     <section id="men">
-        <div class="cat">
+      <div class="cat">
             <p>Bateaux Marine</p>
-            <div class="drag" style="background-color: #0c6;"></div>
-            <div class="drag" style="background-color: #0c6;"></div>
+            <div class="drag" name="bt1" style="background-color: #0c6;" onclick="basicList.coucou(this)">
+            </div>
+            <div class="drag" name="bt2" style="background-color: #0c6;" onclick="basicList.coucou(this)"></div>
             <div class="drag" style="background-color: #0c6;"></div>
         </div>
         <div class="cat">
