@@ -12,6 +12,6 @@ function InitializeMapF(){
 
 var dicP = new Map(); // or var map = {};
 function InitializeMapP(){
-	dicP.set("test","15 bateaux");
-	dicP.set("good", "100 bateaux");
+	dicP.set("Test","15 bateaux");
+	dicP.set("Good", "100 bateaux");
 }

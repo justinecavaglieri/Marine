@@ -28,7 +28,7 @@ var portIcon = L.icon({
 });
 
 
-var map = L.map('map').setView([51.505, -0.09], 13);
+var map = L.map('map').setView([51,5, -0.09], 13);
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
             maxZoom: 18,
@@ -144,12 +144,7 @@ function OnPortMarkerClicked(e)
 
 function OnEnemyMarkerClicked(e)
 {
-    if(currentMarker != null)
-    {
-        currentMarker.closePopup();
-    }
-    currentMarker = e.target;
-    currentMarker.openPopup();
+
 };
 
 function OnRegisterClickedFriends(obj1)
@@ -181,3 +176,6 @@ function OnRegisterClickedPorts(obj1)
 
 // remplacer callback OnFriendMarkerClicked
 };
+map.panTo(new L.LatLng(0.30, 6.54));
+
+
