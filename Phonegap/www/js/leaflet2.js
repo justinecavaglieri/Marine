@@ -4,7 +4,7 @@ var portID = 2;
 var popupContentPoint = '<div> Sectionne ton bateau: </br> <button name="bt1" onclick="ClickB.bateau(this, friendID)">bateaux amis</button><button onclick="ClickB.bateau(this, enemyID)">bateaux ennemis</button><button onclick="ClickB.bateau(this, portID)">Ports</button></div>';
 var popupContentFriend = '<label for="titre"></label> <input type="text" class="form-control" id="titre" placeholder="Titre du bateau"/> <button class="btn btn-default" onclick="OnRegisterClickedFriends(this)" id="submit">Enregistrer</button> </br> ';
 var popupContentEnemy = '<p>Bateau enemy</p>'
-var popupContentPort = '<label for="title"></label> <input type="text" class="form-control" id="title" placeholder="Nom du port"/> <button class="btn btn-default" onclick="OnRegisterClickedPorts(this)" id="submit">Enregistrer</button> </br> ';
+var popupContentPort = '<label for="title"></label> <input type="text" class="form-control" id="title" placeholder="Nom du port"/> </br> <input type="text" class="form-control" id="count" placeholder="Nombre de bateaux"/><button class="btn btn-default" onclick="OnRegisterClickedPorts(this)" id="submit">Enregistrer</button> </br> ';
 
 var friendIcon = L.icon({
     iconUrl: 'img/ami.jpeg',
@@ -153,7 +153,7 @@ function OnRegisterClickedFriends(obj1)
      //alert(title);
      if(dicF.has(title)){
         currentMarker.off('click', OnFriendMarkerClicked);
-        currentMarker.getPopup().setContent(title+'</br>'+ dicF.get(title) + '</br> <button class="btn btn-default" onclick="Delete(this)" id="delete">Supprimer</button>');
+        currentMarker.getPopup().setContent(title+'</br>'+ dicF.get(title)+ '</br> <img src="img/trash.png" class="trash" onclick="Delete(this)" id="delete"/>' );
         //alert('element trouvé');
      } else{
         alert('element non trouvé');
@@ -165,16 +165,8 @@ function OnRegisterClickedFriends(obj1)
 function OnRegisterClickedPorts(obj1)
 {
     var title = document.getElementById('title').value;
-     //alert(name);
-     if(dicP.has(title)){
-        currentMarker.off('click', OnPortMarkerClicked);
-        currentMarker.getPopup().setContent(title+'</br>'+ dicP.get(title)+ '</br> <button class="btn btn-default" onclick="Delete(this)" id="delete">Supprimer</button>');
-        //alert('element trouvé');
-     } else{
-        alert('element non trouvé');
-     }
-
-// remplacer callback OnFriendMarkerClicked
+    var count = document.getElementById('count').value;
+    currentMarker.getPopup().setContent(title+'</br>'+ count + '</br> <img src="img/trash.png" class="trash" onclick="Delete(this)" id="delete"/>');
 };
 map.panTo(new L.LatLng(0.30, 6.54), 13);
 
