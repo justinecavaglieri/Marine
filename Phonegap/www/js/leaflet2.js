@@ -28,7 +28,7 @@ var portIcon = L.icon({
 });
 
 
-var map = L.map('map').setView([51,5, -0.09], 13);
+var map = L.map('map').setView([51,5, -0.09], 6);
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
             maxZoom: 18,
@@ -153,7 +153,7 @@ function OnRegisterClickedFriends(obj1)
      //alert(title);
      if(dicF.has(title)){
         currentMarker.off('click', OnFriendMarkerClicked);
-        currentMarker.getPopup().setContent(title+'</br>'+ dicF.get(title));
+        currentMarker.getPopup().setContent(title+'</br>'+ dicF.get(title) + '</br> <button class="btn btn-default" onclick="Delete(this)" id="delete">Supprimer</button>');
         //alert('element trouvé');
      } else{
         alert('element non trouvé');
@@ -168,7 +168,7 @@ function OnRegisterClickedPorts(obj1)
      //alert(name);
      if(dicP.has(title)){
         currentMarker.off('click', OnPortMarkerClicked);
-        currentMarker.getPopup().setContent(title+'</br>'+ dicP.get(title));
+        currentMarker.getPopup().setContent(title+'</br>'+ dicP.get(title)+ '</br> <button class="btn btn-default" onclick="Delete(this)" id="delete">Supprimer</button>');
         //alert('element trouvé');
      } else{
         alert('element non trouvé');
@@ -176,6 +176,10 @@ function OnRegisterClickedPorts(obj1)
 
 // remplacer callback OnFriendMarkerClicked
 };
-map.panTo(new L.LatLng(0.30, 6.54));
+map.panTo(new L.LatLng(0.30, 6.54), 13);
 
+function Delete(obj1)
+{
+    map.removeLayer(currentMarker);
+}
 
