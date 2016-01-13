@@ -1,31 +1,31 @@
 var friendID = 0;
 var enemyID = 1;
-var popupContentPoint = '<div> Sectionne ton bateau: </br> <button name="bt1" onclick="ClickB.bateau(this, friendID)">bateaux amis</button><button onclick="ClickB.bateau(this, enemyID)">bateaux ennemis</button></div>';
-var popupContentFriend = '<label for="titre"></label> <input type="text" class="form-control" id="titre" placeholder="Titre du bateau"/> <button class="btn btn-default" onclick="OnRegisterClicked(this)" id="submit">Enregistrer</button> </br> ';
-
+var portID = 2;
+var popupContentPoint = '<div> Sectionne ton bateau: </br> <button name="bt1" onclick="ClickB.bateau(this, friendID)">bateaux amis</button><button onclick="ClickB.bateau(this, enemyID)">bateaux ennemis</button><button onclick="ClickB.bateau(this, portID)">Ports</button></div>';
+var popupContentFriend = '<label for="titre"></label> <input type="text" class="form-control" id="titre" placeholder="Titre du bateau"/> <button class="btn btn-default" onclick="OnRegisterClickedFriends(this)" id="submit">Enregistrer</button> </br> ';
+var popupContentEnemy = '<p>Bateau enemy</p>'
+var popupContentPort = '<label for="title"></label> <input type="text" class="form-control" id="title" placeholder="Nom du port"/> <button class="btn btn-default" onclick="OnRegisterClickedPorts(this)" id="submit">Enregistrer</button> </br> ';
 
 var friendIcon = L.icon({
     iconUrl: 'img/ami.jpeg',
-
-    //shadowUrl: 'leaf-shadow.png',
-    iconSize:     [38, 95], // size of the icon
-    //shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    //shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    iconSize:     [38, 95],
+    iconAnchor:   [22, 94], 
+    popupAnchor:  [-3, -76] 
 });
 
 var enemyIcon = L.icon({
     iconUrl: 'img/ennemi.jpeg',
-    //shadowUrl: 'leaf-shadow.png',
-
-    iconSize:     [38, 95], // size of the icon
-    //shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    //shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    iconSize:     [38, 95],
+    iconAnchor:   [22, 94], 
+    popupAnchor:  [-3, -76] 
 });
 
+var portIcon = L.icon({
+    iconUrl: 'img/port.png',
+    iconSize:     [38, 95],
+    iconAnchor:   [22, 94], 
+    popupAnchor:  [-3, -76] 
+});
 
 
 var map = L.map('map').setView([51.505, -0.09], 13);
@@ -89,11 +89,27 @@ var ClickB =
 
             //OnFriendMarkerClicked(newMarker);
         }
-        else if(enemyID == enemyID)
+        else if(argumentID == enemyID)
         {
             icon = enemyIcon;
-            var newMarker = L.marker(currentCursorPosition, {icon: icon}).addTo(map);//.bindPopup("a venir");
-            newMarker.click = OnEnemyMarkerClicked(newMarker);
+            var newMarker = L.marker(currentCursorPosition/*, {icon: icon}*/);
+            newMarker.addTo(map);
+            newMarker.setIcon(icon);
+            newMarker.bindPopup(popupContentEnemy);
+            newMarker.closePopup();
+            newMarker.update();
+            newMarker.on('click', OnEnemyMarkerClicked);
+        }
+        else if (argumentID == portID)
+        {
+            icon = portIcon;
+            var newMarker = L.marker(currentCursorPosition/*, {icon: icon}*/);
+            newMarker.addTo(map);
+            newMarker.setIcon(icon);
+            newMarker.bindPopup(popupContentPort);
+            newMarker.closePopup();
+            newMarker.update();
+            newMarker.on('click', OnPortMarkerClicked);
         }
 
         
@@ -108,30 +124,56 @@ var ClickB =
 var currentMarker = null;
 function OnFriendMarkerClicked(e)
 {
-    //window.open('popup.html','fenetre','width=650,height=500');
-    //alert('title');
    if(currentMarker != null)
     {
         currentMarker.closePopup();
     }
     currentMarker = e.target;
-    //currentMarker.setIcon(enemyIcon);
     currentMarker.openPopup();
-    // $('#openModal').show();
+};
+
+function OnPortMarkerClicked(e)
+{
+   if(currentMarker != null)
+    {
+        currentMarker.closePopup();
+    }
+    currentMarker = e.target;
+    currentMarker.openPopup();
 };
 
 function OnEnemyMarkerClicked(e)
 {
-
+    if(currentMarker != null)
+    {
+        currentMarker.closePopup();
+    }
+    currentMarker = e.target;
+    currentMarker.openPopup();
 };
 
-function OnRegisterClicked(obj1)
+function OnRegisterClickedFriends(obj1)
 {
     var title = document.getElementById('titre').value;
-     alert(title);
-     if(dic.has(title)){
+     //alert(title);
+     if(dicF.has(title)){
         currentMarker.off('click', OnFriendMarkerClicked);
-        currentMarker.getPopup().setContent(title+'</br>'+ dic.get(title));
+        currentMarker.getPopup().setContent(title+'</br>'+ dicF.get(title));
+        //alert('element trouvé');
+     } else{
+        alert('element non trouvé');
+     }
+
+// remplacer callback OnFriendMarkerClicked
+};
+
+function OnRegisterClickedPorts(obj1)
+{
+    var title = document.getElementById('title').value;
+     //alert(name);
+     if(dicP.has(title)){
+        currentMarker.off('click', OnPortMarkerClicked);
+        currentMarker.getPopup().setContent(title+'</br>'+ dicP.get(title));
         //alert('element trouvé');
      } else{
         alert('element non trouvé');
