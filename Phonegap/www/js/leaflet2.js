@@ -7,26 +7,27 @@ var popupContentEnemy = '<p>Bateau enemy</p>'
 var popupContentPort = '<label for="title"></label> <input type="text" class="form-control" id="title" placeholder="Nom du port"/> </br> <input type="text" class="form-control" id="count" placeholder="Nombre de bateaux"/><button class="btn btn-default" onclick="OnRegisterClickedPorts(this)" id="submit">Enregistrer</button> </br> ';
 
 var friendIcon = L.icon({
-    iconUrl: 'img/ami.jpeg',
-    iconSize:     [38, 95],
-    iconAnchor:   [22, 94], 
+    iconUrl: '../../img/ami.png',
+    iconSize:     [38, 38],
+    iconAnchor:   [22, 22], 
     popupAnchor:  [-3, -76] 
 });
 
 var enemyIcon = L.icon({
-    iconUrl: 'img/ennemi.jpeg',
-    iconSize:     [38, 95],
-    iconAnchor:   [22, 94], 
+    iconUrl: '../../img/ennemi.png',
+    iconSize:     [38, 38],
+    iconAnchor:   [22, 22], 
     popupAnchor:  [-3, -76] 
 });
 
 var portIcon = L.icon({
-    iconUrl: 'img/port.png',
-    iconSize:     [38, 95],
-    iconAnchor:   [22, 94], 
+    iconUrl: '../../img/Ports.png',
+    iconSize:     [38, 38],
+    iconAnchor:   [22, 22], 
     popupAnchor:  [-3, -76] 
 });
 
+var actionPopup;
 
 var map = L.map('map').setView([51,5, -0.09], 6);
 
@@ -40,30 +41,18 @@ var map = L.map('map').setView([51,5, -0.09], 6);
 
 
 
-        L.marker([51.5, -0.09]).addTo(map)
-            .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-
-        L.circle([51.508, -0.11], 500, {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5
-        }).addTo(map).bindPopup("I am a circle.");
-
-        L.polygon([
-            [51.509, -0.08],
-            [51.503, -0.06],
-            [51.51, -0.047]
-        ]).addTo(map).bindPopup("I am a polygon.");
-
-
-        var popup = L.popup();
+        actionPopup = L.popup();
 
         function onMapClick(e) {
             currentCursorPosition = e.latlng;
-            popup
+
+            if(isOnDrawing == false)
+            {
+            actionPopup
                 .setLatLng(e.latlng)
                 .setContent(popupContentPoint)
                 .openOn(map);
+            }
         }
 
         map.on('click', onMapClick);
@@ -75,6 +64,8 @@ var ClickB =
 {
     'items':{},
     'bateau':function(obj1, argumentID) {
+
+
         var icon;
         if(argumentID == friendID)
         {
@@ -82,6 +73,7 @@ var ClickB =
             var newMarker = L.marker(currentCursorPosition/*, {icon: icon}*/);
             newMarker.addTo(map);
             newMarker.setIcon(icon);
+            //closePopup(popupContentPoint); 
             newMarker.bindPopup(popupContentFriend);
             newMarker.closePopup();
             newMarker.update();
@@ -112,7 +104,7 @@ var ClickB =
             newMarker.on('click', OnPortMarkerClicked);
         }
 
-        
+        map.closePopup(actionPopup);
 
         //c.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
         //var element = document.getElementsByName("test");
@@ -122,6 +114,11 @@ var ClickB =
   }
 };
 var currentMarker = null;
+var isOnDrawing = false;
+function SetIsOnDrawing(v)
+{
+    isOnDrawing = v;
+}
 function OnFriendMarkerClicked(e)
 {
    if(currentMarker != null)
@@ -150,8 +147,9 @@ function OnEnemyMarkerClicked(e)
 function OnRegisterClickedFriends(obj1)
 {
     var title = document.getElementById('titre').value;
-     //alert(title);
+     alert(title);
      if(dicF.has(title)){
+        alert("found");
         currentMarker.off('click', OnFriendMarkerClicked);
         currentMarker.getPopup().setContent(title+'</br>'+ dicF.get(title)+ '</br> <img src="img/trash.png" class="trash" onclick="Delete(this)" id="delete"/>' );
         //alert('element trouvé');
